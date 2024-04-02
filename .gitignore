@@ -1,0 +1,8 @@
+.env
+
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+*.ipynb
