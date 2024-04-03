@@ -9,6 +9,12 @@ Paint by Numbers is a versatile command-line tool that allows users to either cr
 - **Prompt**: Provide a descriptive prompt to guide the creation or editing of the image.
 - **Palette Count**: Define the number of colors for your palette, enhancing the visual appeal and clarity of the image.
 
+## Setup
+
+Add a `.env` file and add your `OPENAI_API_KEY` in the `.env` file. 
+
+Run `pip install -r requirements.txt` to install all required packages. 
+
 ## Usage
 
 To use Paint by Numbers, you can follow the command-line syntax described below. This tool supports various options to tailor the image processing according to your needs.
