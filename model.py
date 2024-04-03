@@ -91,6 +91,9 @@ def combine_images(image, pal):
     multi =a_y // cols
     for i in range(cols):
         p_arr[:, (i)*(multi):(i+1)*(multi), :] = pal[ i, :]
+        loc = (ims[0], ((i)*(multi) + (i+1)*(multi))//2)
+        cv2.putText(p_arr, str(i), loc, 
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0, 50), 1)
 
     combine[image.shape[0]+20:, :, :] = p_arr
     return combine.astype(np.uint8)
@@ -110,20 +113,25 @@ def create(image_path, n_clusters=8):
     skimage.io.imsave(filename, final_image)
     return filename
 
+def prep_image(image):
+   if image.shape[-1] == 3: 
+       image = cv2.cvtColor(image, cv2.COLOR_RGB2RGBA)
+   _, img = cv2.imencode('.png', cv2.cvtColor(image, cv2.COLOR_RGBA2BGRA))
+   return img.tobytes()
+
 @record_time
 def trigger_dalle(image_path, prompt, mode):
-    if mode == 'e' and prompt is None:
+    if mode == 'v' and prompt is None:
         return image_path
     client = OpenAI()
-    if mode == 'e':
+    if mode == 'v':
         image = skimage.io.imread(image_path)
         img_bytes = prep_image(image)
-        response = client.images.edit(
+        response = client.images.create_variation(
             model="dall-e-2",
             image=img_bytes,
-            prompt=prompt,
             n=1,
-            size='512x512'
+            size='1024x1024'
         )
         return response.data[0].url
     
@@ -137,7 +145,3 @@ def trigger_dalle(image_path, prompt, mode):
         )
         return response.data[0].url
 
-def prep_image(image):
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2RGBA)
-    _, img = cv2.imencode('.png', image)
-    return img.tobytes()
