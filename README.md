@@ -24,9 +24,28 @@ Usage: paint_by_numbers.py [OPTIONS]
 
 Options:
 --mode TEXT create a new image using Dall-E or edit an existing
-image, options - C for create, E for edit
---image_path TEXT path to the image you want to use/edit
---prompt TEXT prompt to guide the creation/editing of the image
+image, options - 'C' for create, 'v' for variation of the existing image
+--image_path TEXT path to the image you want to use.
+--prompt TEXT prompt to guide the creation of the image
 --palette_count INTEGER number of colors for your palette
 --help Show this message and exit.
+```
+
+```
+python3 paint_by_numbers.py --image_path='shapes.jpeg'
+
+```
+
+
+```
+python3 paint_by_numbers.py --mode='v' --image_path='shapes.jpeg'
+
+```
+
+```
+python3 paint_by_numbers.py --mode='v' --image_path='shapes.jpeg'
+```
+
+```
+python3 paint_by_numbers.py --mode='C' --prompt='image of NYC skyline'
 ```
