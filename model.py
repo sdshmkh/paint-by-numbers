@@ -101,6 +101,9 @@ def combine_images(image, pal):
 @record_time
 def create(image_path, n_clusters=8):
     image = skimage.io.imread(image_path)
+    if image.shape[-1] > 3:
+        # get rid of the alpha channel
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
 
     model, simple_image = simplify_image(image, n_clusters)
     palette = np.hstack((model.cluster_centers_, 255 * np.ones((model.cluster_centers_.shape[0], 1), dtype=np.uint8)))
@@ -109,8 +112,8 @@ def create(image_path, n_clusters=8):
     recon_image, kmeans_labels = assign_superpixel_to_clusters(sp_image, labels, num_superpixels, model)
     image_with_labels = create_image_labels(slic, recon_image, labels, kmeans_labels)
     final_image = combine_images(image_with_labels, palette)
-    filename = 'pbk-'+datetime.datetime.now().strftime('%Y-%m-%d %H:%M')+'.png'
-    skimage.io.imsave(filename, final_image)
+    filename = 'pbk-{}-.png'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
+    cv2.imwrite(filename, cv2.cvtColor(final_image, cv2.COLOR_RGBA2BGRA))
     return filename
 
 def prep_image(image):
