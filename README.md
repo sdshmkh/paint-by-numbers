@@ -13,7 +13,23 @@ Paint by Numbers is a versatile command-line tool that allows users to either cr
 
 Add a `.env` file and add your `OPENAI_API_KEY` in the `.env` file. 
 
-Run `pip install -r requirements.txt` to install all required packages. 
+Install `virtualenv` via pip. It's recommended to update pip to the latest version before doing so.
+
+```
+pip install virtualenv
+```
+Create a new virtualenv with 
+```
+python -m virtualenv venv
+```
+Activate the venv
+```
+venv\Scripts\activate 
+```
+Run 
+```
+pip install -r requirements.txt
+``` 
 
 ## Usage
 
