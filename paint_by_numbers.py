@@ -5,7 +5,7 @@ from model import create
 from model import trigger_dalle
 
 @click.command()
-@click.option('--mode', default='edit', help='create a new image using Dall-E or a variation of an existing image, options - v/C')
+@click.option('--mode', default=None, help='create a new image using Dall-E or a variation of an existing image, options - v/C')
 @click.option('--image_path', default=None, help='path to the image')
 @click.option('--prompt', default=None, help='prompt to create/edit the image')
 @click.option('--palette_count', default=10, help='number of colors for your palette')

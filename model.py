@@ -121,7 +121,7 @@ def prep_image(image):
 
 @record_time
 def trigger_dalle(image_path, prompt, mode):
-    if mode == 'v' and prompt is None:
+    if mode is None:
         return image_path
     client = OpenAI()
     if mode == 'v':
