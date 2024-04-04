@@ -1,4 +1,5 @@
 import datetime
+import os
 
 import cv2
 import numpy as np
@@ -112,9 +113,25 @@ def create(image_path, n_clusters=8):
     recon_image, kmeans_labels = assign_superpixel_to_clusters(sp_image, labels, num_superpixels, model)
     image_with_labels = create_image_labels(slic, recon_image, labels, kmeans_labels)
     final_image = combine_images(image_with_labels, palette)
-    filename = 'pbk-{}-.png'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
-    success = cv2.imwrite(filename, cv2.cvtColor(final_image, cv2.COLOR_RGBA2BGRA))
-    return filename, final_image, success
+    # convert to BGRA as cv2 expects it
+    final_image = cv2.cvtColor(final_image, cv2.COLOR_RGBA2BGRA)
+    return final_image
+
+def save_file(image, prompt):
+    # save in paint-by-numbers-kits
+    pbk_dir = os.path.join(os.getcwd(), 'paint-by-number-kits')
+    if not os.path.isdir(pbk_dir):
+        os.makedirs(pbk_dir)
+    filename = 'pbk-{}.png'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')) if prompt is None else 'pbk-{}-{}.png'.format(prompt, datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
+    pbk_file_path = os.path.join(pbk_dir, filename)
+    success = cv2.imwrite(pbk_file_path, image)
+    if not success:
+        raise Exception("Failed to save file")
+    # check if file exists
+    if not os.path.exists(pbk_file_path):
+        raise Exception("Could not find saved file")
+
+    return pbk_file_path
 
 def prep_image(image):
    if image.shape[-1] == 3: 
