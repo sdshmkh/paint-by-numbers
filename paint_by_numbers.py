@@ -1,5 +1,6 @@
 import click
 from dotenv import load_dotenv
+import cv2
 
 from model import create
 from model import trigger_dalle
@@ -20,9 +21,13 @@ def run(mode, image_path, prompt, palette_count):
         return
     
     image_path = trigger_dalle(image_path, prompt, mode)
-    pbk_image_path, success = create(image_path, n_clusters=palette_count)
+    pbk_image_path, pbk_image, success = create(image_path, n_clusters=palette_count)
     click.echo(pbk_image_path)
     click.echo(success)
+
+    cv2.imshow('PBK IMage', pbk_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 
