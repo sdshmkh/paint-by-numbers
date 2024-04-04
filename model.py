@@ -113,8 +113,8 @@ def create(image_path, n_clusters=8):
     image_with_labels = create_image_labels(slic, recon_image, labels, kmeans_labels)
     final_image = combine_images(image_with_labels, palette)
     filename = 'pbk-{}-.png'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))
-    cv2.imwrite(filename, cv2.cvtColor(final_image, cv2.COLOR_RGBA2BGRA))
-    return filename
+    success = cv2.imwrite(filename, cv2.cvtColor(final_image, cv2.COLOR_RGBA2BGRA))
+    return filename, final_image, success
 
 def prep_image(image):
    if image.shape[-1] == 3: 
