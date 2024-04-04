@@ -20,8 +20,9 @@ def run(mode, image_path, prompt, palette_count):
         return
     
     image_path = trigger_dalle(image_path, prompt, mode)
-    pbk_image_path = create(image_path, n_clusters=palette_count)
+    pbk_image_path, success = create(image_path, n_clusters=palette_count)
     click.echo(pbk_image_path)
+    click.echo(success)
 
 
 
